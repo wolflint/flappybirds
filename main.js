@@ -1,5 +1,5 @@
 //Create our 'main' state that will contain the game
-var mainStage = {
+var mainState = {
   preload: function() {
     //This function will be executed at the beginning
     //That's where we load the images and sound
@@ -38,6 +38,11 @@ var mainStage = {
 
       //Timer for addRowOfPipes() function
       this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+
+//Score
+      this.score = 0;
+this.labelScore = game.add.text(20, 20, "0",
+    { font: "30px Arial", fill: "#ffffff" });
   },
 
   addOnePipe: function(x, y) {
@@ -68,6 +73,10 @@ var mainStage = {
     for (var i = 0; i < 8; i++)
       if (i != hole && i != hole + 1)
         this.addOnePipe(400, i * 60 + 10);
+
+        //Increase score by 1
+        this.score += 1;
+        this.labelScore.text = this.score;
   },
 
     update: function() {
@@ -87,6 +96,10 @@ var mainStage = {
     restartGame: function() {
       //Start the 'main' state which restarts game
       game.state.start('main');
+
+      //Restart the game when the bird collides with the pipe
+      game.physics.arcade.ovelap(
+        this.bird, this.pipes, this.restartGame, null, this);
     },
 };
 
