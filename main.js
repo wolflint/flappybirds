@@ -1,111 +1,129 @@
 //Create our 'main' state that will contain the game
 var mainState = {
 
-    preload: function () {
-        //This function will be executed at the beginning
-        //That's where we load the images and sound
+  preload: function() {
+    //This function will be executed at the beginning
+    //That's where we load the images and sound
 
-        //Load the bird sprite
-        game.load.image('bird', 'assets/bird.png');
-        game.load.image('pipe', 'assets/pipe.png');
-    },
+    //Load the bird sprite
+    game.load.image('bird', 'assets/bird.png');
+    game.load.image('pipe', 'assets/pipe.png');
+  },
 
-    create: function () {
-        //This function is called after the preload function
-        //Here we setup the game, display sprites, etc...
+  create: function() {
+    //This function is called after the preload function
+    //Here we setup the game, display sprites, etc...
 
-        //Change the background colour o the game to ble - for now!
-        game.stage.backgroundColor = '#71c5cf';
+    //Change the background colour o the game to ble - for now!
+    game.stage.backgroundColor = '#0b1852';
 
-        //Set the physics for the game
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+    //Set the physics for the game
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        //Display the bird as the position of x=100 and y=245
-        this.bird = game.add.sprite(100, 245, 'bird');
+    //Display the bird as the position of x=100 and y=245
+    this.bird = game.add.sprite(100, 245, 'bird');
 
-        //Add physics to the bird
-        //Needed for: movement, gravity, collisions, etc...
-        game.physics.arcade.enable(this.bird);
+    //Move the rotation anchor point
+    this.bird.anchor.setTo(-0.2, 0.5);
 
-        //Add gravity to the bird to ake it fall
-        this.bird.body.gravity.y = 1000;
+    //Add physics to the bird
+    //Needed for: movement, gravity, collisions, etc...
+    game.physics.arcade.enable(this.bird);
 
-        //Call 'jump' function when the space bar is pressed
-        var spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        spaceBar.onDown.add(this.jump, this);
+    //Add gravity to the bird to ake it fall
+    this.bird.body.gravity.y = 1000;
 
-        // Create an empty group
-        this.pipes = game.add.group();
+    //Call 'jump' function when the space bar is pressed
+    var spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceBar.onDown.add(this.jump, this);
 
-        //Timer for addRowOfPipes() function
-        this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
+    // Create an empty group
+    this.pipes = game.add.group();
 
-        //Score
-        this.score = 0;
-        this.labelScore = game.add.text(20, 20, "0", {
-            font: "30px Arial",
-            fill: "#ffffff"
-        });
-    },
+    //Timer for addRowOfPipes() function
+    this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
 
-    addOnePipe: function (x, y) {
-        // Create a pipe at the position x and y
-        var pipe = game.add.sprite(x, y, 'pipe');
 
-        // Add the pipe to our previously created group
-        this.pipes.add(pipe);
 
-        // Enable physics on the pipe 
-        game.physics.arcade.enable(pipe);
+    //Score
+    this.score = 0;
+    this.labelScore = game.add.text(20, 20, "0", {
+      font: "30px Arial",
+      fill: "#ffffff"
+    });
+  },
 
-        // Add velocity to the pipe to make it move left
-        pipe.body.velocity.x = -200;
+  addOnePipe: function(x, y) {
+    // Create a pipe at the position x and y
+    var pipe = game.add.sprite(x, y, 'pipe');
 
-        // Automatically kill the pipe when it's no longer visible 
-        pipe.checkWorldBounds = true;
-        pipe.outOfBoundsKill = true;
-    },
+    // Add the pipe to our previously created group
+    this.pipes.add(pipe);
 
-    addRowOfPipes: function () {
-        // Randomly pick a number between 1 and 5
-        // This will be the hole position
-        var hole = Math.floor(Math.random() * 5) + 1;
+    // Enable physics on the pipe
+    game.physics.arcade.enable(pipe);
 
-        // Add the 6 pipes 
-        // With one big hole at position 'hole' and 'hole + 1'
-        for (var i = 0; i < 8; i++)
-            if (i != hole && i != hole + 1)
-                this.addOnePipe(400, i * 60 + 10);
-        //Increase score
-        this.score += 1;
-        this.labelScore.text = this.score;
-    },
+    // Add velocity to the pipe to make it move left
+    pipe.body.velocity.x = -200;
 
-    update: function () {
-        //This function is called 60 times per second
-        //It contains the games logic
+    // Automatically kill the pipe when it's no longer visible
+    pipe.checkWorldBounds = true;
+    pipe.outOfBoundsKill = true;
+  },
 
-        //Call the 'restartGame' function
-        if (this.bird.y < 0 || this.bird.y > 490)
-            this.restartGame();
+  addRowOfPipes: function() {
+    // Randomly pick a number between 1 and 5
+    // This will be the hole position
+    var hole = Math.floor(Math.random() * 5) + 1;
 
-        //Collision
-        game.physics.arcade.overlap(
-            this.bird, this.pipes, this.restartGame, null, this);
-    },
+    // Add the 6 pipes
+    // With one big hole at position 'hole' and 'hole + 1'
+    for (var i = 0; i < 8; i++)
+      if (i != hole && i != hole + 1)
+        this.addOnePipe(400, i * 60 + 10);
+    //Increase score
+    this.score += 1;
+    this.labelScore.text = this.score;
+  },
 
-    jump: function () {
-        // Make the bird jump 
-        // Add a vertical velocity to the bird
-        this.bird.body.velocity.y = -350;
-    },
+  update: function() {
+    //This function is called 60 times per second
+    //It contains the games logic
 
-    restartGame: function () {
-        // Restart the game
-        // Start the 'main' state, which restarts the game
-        game.state.start('main');
+    //Call the 'restartGame' function
+    if (this.bird.y < 0 || this.bird.y > 490)
+      this.restartGame();
 
-    },
+    //Collision
+    game.physics.arcade.overlap(
+      this.bird, this.pipes, this.restartGame, null, this);
+
+    //Tilt down when falling
+    if (this.bird.angle < 20)
+        this.bird.angle += 1;
+  },
+
+  jump: function() {
+    // Make the bird jump
+    // Add a vertical velocity to the bird
+    this.bird.body.velocity.y = -350;
+
+    //Create an animation on the bird
+    var animation = game.add.tween(this.bird);
+
+    //Change the angle by -20 in 100 milliseconds
+    animation.to({angle: -20}, 100);
+
+    //Start the animation
+    animation.start();
+  },
+
+  restartGame: function() {
+    // Restart the game
+    // Start the 'main' state, which restarts the game
+    game.state.start('main');
+
+  },
 };
 
 //Initialise Phaser, and create a 400px x 490px game
