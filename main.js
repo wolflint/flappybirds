@@ -1,5 +1,6 @@
 //Create our 'main' state that will contain the game
 var mainState = {
+
     preload: function () {
         //This function will be executed at the beginning
         //That's where we load the images and sound
@@ -80,7 +81,6 @@ var mainState = {
         this.labelScore.text = this.score;
     },
 
-
     update: function () {
         //This function is called 60 times per second
         //It contains the games logic
@@ -88,19 +88,20 @@ var mainState = {
         //Call the 'restartGame' function
         if (this.bird.y < 0 || this.bird.y > 490)
             this.restartGame();
-        
+
         //Collision
         game.physics.arcade.overlap(
             this.bird, this.pipes, this.restartGame, null, this);
     },
-    // Make the bird jump 
+
     jump: function () {
+        // Make the bird jump 
         // Add a vertical velocity to the bird
         this.bird.body.velocity.y = -350;
     },
 
-    // Restart the game
     restartGame: function () {
+        // Restart the game
         // Start the 'main' state, which restarts the game
         game.state.start('main');
 
