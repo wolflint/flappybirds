@@ -79,6 +79,16 @@ this.labelScore = game.add.text(20, 20, "0",
         this.labelScore.text = this.score;
   },
 
+  //Retart the game
+  restartGame: function() {
+    //Start the 'main' state which restarts game
+    game.state.start('main');
+
+    //Restart the game when the bird collides with the pipe
+    game.physics.arcade.ovelap(
+      this.bird, this.pipes, this.restartGame, null, this);
+    },
+
     update: function() {
         //This function is called 60 times per second
         //It contains the games logic
@@ -90,16 +100,6 @@ this.labelScore = game.add.text(20, 20, "0",
     jump: function() {
       //Add a vertical velocity to the bird
       this.bird.body.velocity.y = -350;
-    },
-
-    //Retart the game
-    restartGame: function() {
-      //Start the 'main' state which restarts game
-      game.state.start('main');
-
-      //Restart the game when the bird collides with the pipe
-      game.physics.arcade.ovelap(
-        this.bird, this.pipes, this.restartGame, null, this);
     },
 };
 
