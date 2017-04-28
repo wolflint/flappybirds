@@ -1,3 +1,5 @@
+//TEST
+
 //Create our 'main' state that will contain the game
 var mainState = {
 
