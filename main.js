@@ -7,10 +7,16 @@ var mainState = {
     //This function will be executed at the beginning
     //That's where we load the images and sound
 
-    //Load the bird sprite
+    //Load the bird sprite and sound
     game.load.image('bird', 'assets/bird.png');
     game.load.image('pipe', 'assets/pipe.png');
     game.load.audio('jump', 'assets/jump.wav');
+
+    //Center the game canvas
+    this.game.scale.pageAlignHorizontally = true;
+    this.game.scale.pageAlignVertically = true;
+    this.game.scale.refresh();
+
   },
 
   create: function() {
@@ -160,10 +166,7 @@ var mainState = {
 
 //Initialise Phaser, and create a 400px x 490px game
 var game = new Phaser.Game(400, 490);
-//Center the game canvas
-this.game.scale.pageAlignHorizontally = true;
-this.game.scale.pageAlignVertically = true;
-this.game.scale.refresh();
+
 //Add the 'mainState' and call it 'main''
 game.state.add('main', mainState);
 
