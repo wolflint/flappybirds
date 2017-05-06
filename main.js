@@ -160,7 +160,10 @@ var mainState = {
 
 //Initialise Phaser, and create a 400px x 490px game
 var game = new Phaser.Game(400, 490);
-
+//Center the game canvas
+this.game.scale.pageAlignHorizontally = true;
+this.game.scale.pageAlignVertically = true;
+this.game.scale.refresh();
 //Add the 'mainState' and call it 'main''
 game.state.add('main', mainState);
 
