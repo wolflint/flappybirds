@@ -60,7 +60,7 @@ var mainState = {
     //Score
     this.score = 0;
     this.labelScore = game.add.text(20, 20, "0", {
-      font: "30px Press Start 2P",
+      font: "30px Mono",
       fill: "#ffffff"
     });
   },
