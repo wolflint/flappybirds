@@ -1,7 +1,7 @@
 //TEST
 
 //Create our 'main' state that will contain the game
-var highscore;
+var highscore = 0;
 var mainState = {
 
   preload: function() {
