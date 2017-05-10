@@ -64,7 +64,7 @@ var mainState = {
             font: "30px Mono",
             fill: "#ffffff"
         });
-        this.labelHiScore = game.add.text(20, 450, "Highs  core:  " + highscore, {
+        this.labelHiScore = game.add.text(20, 450, "Highscore:  " + highscore, {
             font: "20px Mono",
             fill: "#ffffff"
         });
