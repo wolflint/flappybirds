@@ -64,10 +64,11 @@ var mainState = {
       font: "30px Mono",
       fill: "#ffffff"
     });
-    this.labelHiScore = game.add.text(40, 40, "0", {
+    this.labelHiScore = game.add.text(20, 40, "0", {
       font: "30px Mono",
       fill: "#ffffff"
     });
+    this.labelHiScore = highscore;
   },
 
   addOnePipe: function(x, y) {
