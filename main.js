@@ -1,6 +1,7 @@
 //TEST
 
 //Create our 'main' state that will contain the game
+var highscore;
 var mainState = {
 
   preload: function() {
@@ -60,6 +61,10 @@ var mainState = {
     //Score
     this.score = 0;
     this.labelScore = game.add.text(20, 20, "0", {
+      font: "30px Mono",
+      fill: "#ffffff"
+    });
+    this.labelHiScore = game.add.text(40, 40, "0", {
       font: "30px Mono",
       fill: "#ffffff"
     });
@@ -154,6 +159,11 @@ var mainState = {
     this.pipes.forEach(function(p) {
       p.body.velocity.x = 0;
     }, this);
+
+    //Change highscore
+    if (this.score > highscore) {
+      highscore = this.score;
+    }
   },
 
   restartGame: function() {
